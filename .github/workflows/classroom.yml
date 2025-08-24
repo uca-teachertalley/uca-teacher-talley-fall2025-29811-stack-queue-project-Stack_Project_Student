@@ -1,19 +1,341 @@
-name: GitHub Classroom Workflow
-
-on:
-  - push
-  - workflow_dispatch
-
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
 permissions:
   checks: write
   actions: read
   contents: read
-
 jobs:
-  build:
-    name: Autograding
+  run-autograding-tests:
     runs-on: ubuntu-latest
     if: github.actor != 'github-classroom[bot]'
     steps:
-      - uses: actions/checkout@v4
-      - uses: education/autograding@v1
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: AutoTest Setup
+      id: autotest-setup
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: AutoTest Setup
+        setup-command: git clone https://github.com/TeacherTalley/Stack_Project_AutoTest.git
+        command: cd Stack_Project_AutoTest && ./AutoTest_setup.sh
+        timeout: 10
+        max-score: 0
+    - name: Coding Style
+      id: coding-style
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Coding Style
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_Style.sh Stack_Project_AutoTest main.cpp Stack.h Queue.h"
+        timeout: 10
+        max-score: 5
+    - name: Test Exit
+      id: test-exit
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Test Exit
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_OutputTest.py -t test_exit"
+        timeout: 10
+        max-score: 5
+    - name: Test Add
+      id: test-add
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Test Add
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_OutputTest.py -t test_add"
+        timeout: 10
+        max-score: 20
+    - name: Test Watch
+      id: test-watch
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Test Watch
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_OutputTest.py -t test_watch"
+        timeout: 10
+        max-score: 15
+    - name: Test Delete
+      id: test-delete
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Test Delete
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_OutputTest.py -t test_delete"
+        timeout: 10
+        max-score: 15
+    - name: Test History
+      id: test-history
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Test History
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_OutputTest.py -t test_history"
+        timeout: 10
+        max-score: 10
+    - name: Test Recent
+      id: test-recent
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Test Recent
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_OutputTest.py -t test_recent"
+        timeout: 10
+        max-score: 10
+    - name: Test Queue
+      id: test-queue
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Test Queue
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_OutputTest.py -t test_queue"
+        timeout: 10
+        max-score: 10
+    - name: Test Next
+      id: test-next
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Test Next
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_OutputTest.py -t test_next"
+        timeout: 10
+        max-score: 10
+    - name: Stack Empty
+      id: stack-empty
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Stack Empty
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_gtest.sh StackTest.Empty"
+        timeout: 10
+        max-score: 0
+    - name: Stack Size
+      id: stack-size
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Stack Size
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_gtest.sh StackTest.Size"
+        timeout: 10
+        max-score: 0
+    - name: Stack Top
+      id: stack-top
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Stack Top
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_gtest.sh StackTest.Top"
+        timeout: 10
+        max-score: 0
+    - name: Stack TopEmptyStack
+      id: stack-topemptystack
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Stack TopEmptyStack
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_gtest.sh StackTest.TopEmptyStack"
+        timeout: 10
+        max-score: 0
+    - name: Stack Push
+      id: stack-push
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Stack Push
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_gtest.sh StackTest.Push"
+        timeout: 10
+        max-score: 0
+    - name: Stack Pop
+      id: stack-pop
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Stack Pop
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_gtest.sh StackTest.Pop"
+        timeout: 10
+        max-score: 0
+    - name: Stack PopEmptyStack
+      id: stack-popemptystack
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Stack PopEmptyStack
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_gtest.sh StackTest.PopEmptyStack"
+        timeout: 10
+        max-score: 0
+    - name: Stack ToString
+      id: stack-tostring
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Stack ToString
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_gtest.sh StackTest.ToString"
+        timeout: 10
+        max-score: 0
+    - name: Stack Print
+      id: stack-print
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Stack Print
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_gtest.sh StackTest.Print"
+        timeout: 10
+        max-score: 0
+    - name: Stack CopyConstructor
+      id: stack-copyconstructor
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Stack CopyConstructor
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_gtest.sh StackTest.CopyConstructor"
+        timeout: 10
+        max-score: 0
+    - name: Stack SaveRestore
+      id: stack-saverestore
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Stack SaveRestore
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_gtest.sh StackTest.SaveRestore"
+        timeout: 10
+        max-score: 0
+    - name: Queue Empty
+      id: queue-empty
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Queue Empty
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_gtest.sh QueueTest.Empty"
+        timeout: 10
+        max-score: 0
+    - name: Queue Size
+      id: queue-size
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Queue Size
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_gtest.sh QueueTest.Size"
+        timeout: 10
+        max-score: 0
+    - name: Queue Front
+      id: queue-front
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Queue Front
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_gtest.sh QueueTest.Front"
+        timeout: 10
+        max-score: 0
+    - name: Queue FrontEmptyQueue
+      id: queue-frontemptyqueue
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Queue FrontEmptyQueue
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_gtest.sh QueueTest.FrontEmptyQueue"
+        timeout: 10
+        max-score: 0
+    - name: Queue Enqueue
+      id: queue-enqueue
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Queue Enqueue
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_gtest.sh QueueTest.Enqueue"
+        timeout: 10
+        max-score: 0
+    - name: Queue Dequeue
+      id: queue-dequeue
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Queue Dequeue
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_gtest.sh QueueTest.Dequeue"
+        timeout: 10
+        max-score: 0
+    - name: Queue DequeueEmptyQueue
+      id: queue-dequeuemptyqueue
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Queue DequeuEmptyQueue
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_gtest.sh QueueTest.DequeueEmptyQueue"
+        timeout: 10
+        max-score: 0
+    - name: Queue ToString
+      id: queue-tostring
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Queue ToString
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_gtest.sh QueueTest.ToString"
+        timeout: 10
+        max-score: 0
+    - name: Queue Print
+      id: queue-print
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Queue Print
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_gtest.sh QueueTest.Print"
+        timeout: 10
+        max-score: 0
+    - name: Queue CopyConstructor
+      id: queue-copyconstructor
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Queue CopyConstructor
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_gtest.sh QueueTest.CopyConstructor"
+        timeout: 10
+        max-score: 0
+    - name: Queue SaveRestore
+      id: queue-saverestore
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Queue SaveRestore
+        setup-command: ''
+        command: "./Stack_Project_AutoTest/AutoTest_gtest.sh QueueTest.SaveRestore"
+        timeout: 10
+        max-score: 0
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        AUTOTEST-SETUP_RESULTS: "${{steps.autotest-setup.outputs.result}}"
+        CODING-STYLE_RESULTS: "${{steps.coding-style.outputs.result}}"
+        TEST-EXIT_RESULTS: "${{steps.test-exit.outputs.result}}"
+        TEST-ADD_RESULTS: "${{steps.test-add.outputs.result}}"
+        TEST-WATCH_RESULTS: "${{steps.test-watch.outputs.result}}"
+        TEST-DELETE_RESULTS: "${{steps.test-delete.outputs.result}}"
+        TEST-HISTORY_RESULTS: "${{steps.test-history.outputs.result}}"
+        TEST-RECENT_RESULTS: "${{steps.test-recent.outputs.result}}"
+        TEST-QUEUE_RESULTS: "${{steps.test-queue.outputs.result}}"
+        TEST-NEXT_RESULTS: "${{steps.test-next.outputs.result}}"
+        STACK-EMPTY_RESULTS: "${{steps.stack-empty.outputs.result}}"
+        STACK-SIZE_RESULTS: "${{steps.stack-size.outputs.result}}"
+        STACK-TOP_RESULTS: "${{steps.stack-top.outputs.result}}"
+        STACK-TOPEMPTYSTACK_RESULTS: "${{steps.stack-topemptystack.outputs.result}}"
+        STACK-PUSH_RESULTS: "${{steps.stack-push.outputs.result}}"
+        STACK-POP_RESULTS: "${{steps.stack-pop.outputs.result}}"
+        STACK-POPEMPTYSTACK_RESULTS: "${{steps.stack-popemptystack.outputs.result}}"
+        STACK-TOSTRING_RESULTS: "${{steps.stack-tostring.outputs.result}}"
+        STACK-PRINT_RESULTS: "${{steps.stack-print.outputs.result}}"
+        STACK-COPYCONSTRUCTOR_RESULTS: "${{steps.stack-copyconstructor.outputs.result}}"
+        STACK-SAVERESTORE_RESULTS: "${{steps.stack-saverestore.outputs.result}}"
+        QUEUE-EMPTY_RESULTS: "${{steps.queue-empty.outputs.result}}"
+        QUEUE-SIZE_RESULTS: "${{steps.queue-size.outputs.result}}"
+        QUEUE-FRONT_RESULTS: "${{steps.queue-front.outputs.result}}"
+        QUEUE-FRONTEMPTYQUEUE_RESULTS: "${{steps.queue-frontemptyqueue.outputs.result}}"
+        QUEUE-ENQUEUE_RESULTS: "${{steps.queue-enqueue.outputs.result}}"
+        QUEUE-DEQUEUE_RESULTS: "${{steps.queue-dequeue.outputs.result}}"
+        QUEUE-DEQUEUEMPTYQUEUE_RESULTS: "${{steps.queue-dequeuemptyqueue.outputs.result}}"
+        QUEUE-TOSTRING_RESULTS: "${{steps.queue-tostring.outputs.result}}"
+        QUEUE-PRINT_RESULTS: "${{steps.queue-print.outputs.result}}"
+        QUEUE-COPYCONSTRUCTOR_RESULTS: "${{steps.queue-copyconstructor.outputs.result}}"
+        QUEUE-SAVERESTORE_RESULTS: "${{steps.queue-saverestore.outputs.result}}"
+      with:
+        runners: autotest-setup,coding-style,test-exit,test-add,test-watch,test-delete,test-history,test-recent,test-queue,test-next,stack-empty,stack-size,stack-top,stack-topemptystack,stack-push,stack-pop,stack-popemptystack,stack-tostring,stack-print,stack-copyconstructor,stack-saverestore,queue-empty,queue-size,queue-front,queue-frontemptyqueue,queue-enqueue,queue-dequeue,queue-dequeuemptyqueue,queue-tostring,queue-print,queue-copyconstructor,queue-saverestore
+        
